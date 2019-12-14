@@ -21,6 +21,17 @@ router.get('/:id', (req, res) => {
         .catch(err => next(err))
 })
 
+router.get('/', (req, res) => {
+    projects.getProjectActions(req.params.id)
+        .then(actions => {
+            if (!actions) {
+                res.status(404).json({ message: 'project actions not found'})
+            }
+            res.status(200).json(actions)
+        })
+        .catch(err => next(err))
+})
+
 router.post('/', (req, res) => {
     projects.insert(req.body)
         .then(project => {
